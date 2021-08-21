@@ -7,6 +7,7 @@ TagManager:
   - Environment
   - Enemy
   - MapBottom
+  - GameManager
   layers:
   - Default
   - TransparentFX

@@ -12,7 +12,8 @@ public class Player : MonoBehaviour {
     public Rigidbody2D bullet;
     public float bulletSpeed = 15;
     public GameObject bulletSpawner;
-    
+
+    private GameManager gameManager;
     private Rigidbody2D rb;
     private int direction;
     private bool jump;
@@ -22,6 +23,7 @@ public class Player : MonoBehaviour {
     private int nEnemies;
 
     void Start() {
+        gameManager = GameObject.FindWithTag("GameManager").GetComponent<GameManager>();
         rb = GetComponent<Rigidbody2D>();
         isGrounded = false;
         isOnLeftWall = false;
@@ -122,10 +124,10 @@ public class Player : MonoBehaviour {
     }
 
     private void Win() {
-        Debug.Log("Win");
+        gameManager.LoadNextLevel();
     }
 
     private void Lose() {
-        Debug.Log("Lose");
+        gameManager.ReloadLevel();
     }
 }
