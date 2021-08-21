@@ -35,13 +35,6 @@ public class Player : MonoBehaviour {
             jump = true;
         if(Input.GetMouseButtonDown(0))
             Shoot();
-
-        if(transform.position.x < -9) {
-            transform.position = new Vector3(9, transform.position.y + 0.3f, transform.position.z);
-        }
-        if(transform.position.x > 9) {
-            transform.position = new Vector3(-9, transform.position.y + 0.3f, transform.position.z);
-        }
     }
 
     void FixedUpdate() {
@@ -54,6 +47,7 @@ public class Player : MonoBehaviour {
 
     private void OnCollisionEnter2D(Collision2D collision) {
         if(collision.gameObject.tag == "Enemy") {
+            Lose();
             Destroy(this.gameObject);
         }
     }
@@ -61,10 +55,13 @@ public class Player : MonoBehaviour {
     private void OnTriggerEnter2D(Collider2D collision) {
         if(collision.tag == "Finish") {
             if(GameObject.FindGameObjectsWithTag("Enemy").Length == nEnemies) {
-                Debug.Log("Win");
+                Win();
             }else {
-                Debug.Log("Loose");
+                Lose();
             }
+        }else if(collision.tag == "MapBottom") {
+            Lose();
+            Destroy(this.gameObject);
         }
     }
 
@@ -122,5 +119,13 @@ public class Player : MonoBehaviour {
             clone.velocity = Vector2.right * bulletSpeed;
         else
             clone.velocity = Vector2.left * bulletSpeed;
+    }
+
+    private void Win() {
+        Debug.Log("Win");
+    }
+
+    private void Lose() {
+        Debug.Log("Lose");
     }
 }
