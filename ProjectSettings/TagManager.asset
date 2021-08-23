@@ -8,6 +8,7 @@ TagManager:
   - Enemy
   - MapBottom
   - GameManager
+  - Destroyable
   layers:
   - Default
   - TransparentFX

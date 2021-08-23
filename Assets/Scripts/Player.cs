@@ -35,7 +35,7 @@ public class Player : MonoBehaviour {
         bool jumpInput = Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.Space);
         if(jumpInput && (isGrounded || isOnLeftWall || isOnRightWall))
             jump = true;
-        if(Input.GetMouseButtonDown(0))
+        if(Input.GetMouseButtonDown(0) && Time.timeScale != 0)
             Shoot();
     }
 
@@ -49,7 +49,7 @@ public class Player : MonoBehaviour {
 
     private void OnCollisionEnter2D(Collision2D collision) {
         if(collision.gameObject.tag == "Enemy") {
-            Lose();
+            Lose("Don't touch the enemy, it's spiky!");
             Destroy(this.gameObject);
         }
     }
@@ -59,10 +59,10 @@ public class Player : MonoBehaviour {
             if(GameObject.FindGameObjectsWithTag("Enemy").Length == nEnemies) {
                 Win();
             }else {
-                Lose();
+                Lose("Damn this bugs!!! The win only registers when you don't kill the enemy");
             }
         }else if(collision.tag == "MapBottom") {
-            Lose();
+            Lose("Hmm... I think you fell of the map");
             Destroy(this.gameObject);
         }
     }
@@ -108,6 +108,8 @@ public class Player : MonoBehaviour {
 
     private void Jump() {
         if(jump) {
+            transform.GetComponent<AudioSource>().Play();
+
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
             
             jump = false;
@@ -115,6 +117,8 @@ public class Player : MonoBehaviour {
     }
 
     private void Shoot() {
+        bulletSpawner.transform.GetComponent<AudioSource>().Play();
+
         Rigidbody2D clone = Instantiate(bullet, bulletSpawner.transform.position, Quaternion.identity);
 
         if(character.transform.eulerAngles.y == 0)
@@ -124,10 +128,10 @@ public class Player : MonoBehaviour {
     }
 
     private void Win() {
-        gameManager.LoadNextLevel();
+        gameManager.ShowWinCanvas();
     }
 
-    private void Lose() {
-        gameManager.ReloadLevel();
+    private void Lose(string loseInfo) {
+        gameManager.ShowLoseCanvas(loseInfo);
     }
 }

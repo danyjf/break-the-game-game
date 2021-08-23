@@ -43,3 +43,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b0a0fab64bde9142bfdaf5a40799f2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  winCanvas: {fileID: 0}
+  loseCanvas: {fileID: 0}
